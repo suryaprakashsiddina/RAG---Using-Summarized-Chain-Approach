@@ -18,7 +18,7 @@ torchvision==0.17.2
 torchaudio==2.2.2
 huggingface-hub==0.24.6
 
-
+nltk
 
 pdf2image==1.17.0
 pdfminer.six==20251230
