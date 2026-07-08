@@ -2,8 +2,8 @@
 
 pip install -r requirements.txt
 
-python -c "
+python - <<EOF
 import nltk
-nltk.download('punkt')
-nltk.download('punkt_tab')
-"
+nltk.download("punkt")
+nltk.download("punkt_tab")
+EOF
