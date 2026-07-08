@@ -373,25 +373,38 @@ def process_document(uploaded_file):
             # Step 1: Document processing
             st.success("✅ Using NEW PyPDF2 extractor")
             doc_processor = DocumentProcessor()
+
+            st.write("Step 1: Extracting PDF...")
+
             chunks = doc_processor.process_pdf(uploaded_file)
             
+            st.write("Step 2: PDF extracted")
+
             if not chunks:
                 st.error("No content extracted from PDF")
                 return
             
+            st.write("Step 3: Summarizing...")
+
             # Step 2: Summarization
             summarizer = Summarizer()
             summarized_chunks = summarizer.create_summarized_chunks(chunks)
             
+            st.write("Step 4: Creating embeddings...")
+
             # Step 3: Vector store initialization
             vector_store = MultiVectorStore()
-            
+
+            st.write("Step 5: Saving vectors...")
+
             # Create memory store with summarized chunks
             memory_store = vector_store.create_memory_store(summarized_chunks, "summarized_chunks")
             
             # Also store original chunks in Chroma for reference
             vector_store.add_to_chroma(chunks, "original_chunks")
             
+            st.write("Step 6: Building RAG...")
+
             # Step 4: RAG chain setup
             rag_system = SummarizedRAGChain()
             qa_chain = rag_system.create_retrieval_chain(memory_store)
