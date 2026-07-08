@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+env/
+rag/
+
+# VS Code
+.vscode/
+
+# Environment variables (contains API keys)
+.env
+
+# Streamlit secrets
+.streamlit/secrets.toml
+
+# Vector databases (generated at runtime)
+vector_stores/
+
+# Uploaded PDFs (user uploads)
+data/uploaded_pdfs/
+
+# Chroma database
+chroma.sqlite3
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
