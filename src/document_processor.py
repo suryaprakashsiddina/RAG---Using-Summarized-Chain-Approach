@@ -7,7 +7,7 @@
 import os
 import tempfile
 from typing import List, Dict, Any
-from unstructured.partition.pdf import partition_pdf
+from PyPDF2 import PdfReader
 # from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema import Document
@@ -21,28 +21,28 @@ class DocumentProcessor:
             chunk_overlap=chunk_overlap,
             length_function=len,
         )
-    
+
     def extract_text_from_pdf(self, pdf_path: str) -> List[Dict[str, Any]]:
-        """Extract text from PDF using Unstructured library"""
+        """Extract text from PDF using PyPDF2"""
         try:
-            elements = partition_pdf(
-                filename=pdf_path,
-                strategy="fast",
-                extract_images=False,
-            )
-            
+            reader = PdfReader(pdf_path)
+
             text_elements = []
-            for i, element in enumerate(elements):
-                if hasattr(element, 'text') and element.text.strip():
+
+            for i, page in enumerate(reader.pages):
+                text = page.extract_text()
+
+                if text and text.strip():
                     text_elements.append({
-                        'id': i,
-                        'text': element.text.strip(),
-                        'type': type(element).__name__
+                        "id": i,
+                        "text": text.strip(),
+                        "type": "Page"
                     })
-            
+
             return text_elements
+
         except Exception as e:
-            raise Exception(f"Error extracting text from PDF: {str(e)}")
+            raise Exception(f"Error extracting text from PDF: {str(e)}")  
     
     def chunk_document(self, text_elements: List[Dict[str, Any]]) -> List[Document]:
         """Split document into chunks for processing"""
