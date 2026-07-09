@@ -401,7 +401,7 @@ def process_document(uploaded_file):
             memory_store = vector_store.create_memory_store(summarized_chunks, "summarized_chunks")
             
             # Also store original chunks in Chroma for reference
-            vector_store.add_to_chroma(chunks, "original_chunks")
+            # vector_store.add_to_chroma(chunks, "original_chunks")
             
             st.write("Step 6: Building RAG...")
 

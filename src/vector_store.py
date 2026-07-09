@@ -7,7 +7,7 @@
 import os
 from typing import List, Dict, Any
 from langchain.schema import Document
-from langchain_community.vectorstores import Chroma
+# from langchain_community.vectorstores import Chroma
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 # from langchain_community.embeddings import OpenAIEmbeddings
@@ -22,12 +22,12 @@ class MultiVectorStore:
         self.memory_store = None
         self.current_stores = {}
     
-    def initialize_chroma(self, persist_directory: str):
-        """Initialize ChromaDB vector store"""
-        self.chroma_store = Chroma(
-            persist_directory=persist_directory,
-            embedding_function=self.embedding_model
-        )
+    # def initialize_chroma(self, persist_directory: str):
+    #     """Initialize ChromaDB vector store"""
+    #     self.chroma_store = Chroma(
+    #         persist_directory=persist_directory,
+    #         embedding_function=self.embedding_model
+    #     )
     
     def create_memory_store(self, documents: List[Document], store_id: str):
         """Create in-memory vector store"""
@@ -38,18 +38,18 @@ class MultiVectorStore:
         self.current_stores[store_id] = self.memory_store
         return self.memory_store
     
-    def add_to_chroma(self, documents: List[Document], collection_name: str):
-        """Add documents to ChromaDB"""
-        if self.chroma_store is None:
-            self.chroma_store = Chroma.from_documents(
-                documents=documents,
-                embedding=self.embedding_model,
-                persist_directory=Config.CHROMA_PERSIST_DIR
-            )
-        else:
-            self.chroma_store.add_documents(documents)
+    # def add_to_chroma(self, documents: List[Document], collection_name: str):
+    #     """Add documents to ChromaDB"""
+    #     if self.chroma_store is None:
+    #         self.chroma_store = Chroma.from_documents(
+    #             documents=documents,
+    #             embedding=self.embedding_model,
+    #             persist_directory=Config.CHROMA_PERSIST_DIR
+    #         )
+    #     else:
+    #         self.chroma_store.add_documents(documents)
         
-        self.chroma_store.persist()
+    #     self.chroma_store.persist()
     
     def similarity_search(self, query: str, k: int = 3, store_type: str = "memory"):
         """Search for similar documents"""
